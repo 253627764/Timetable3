@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/login"
+        android:showAsAction="never"
+        android:title="@string/login"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_new"/>
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:showAsAction="never"
+        android:icon="@drawable/ic_action_settings"
+        android:orderInCategory="100"/>
+    <item
+        android:id="@+id/action_del_all"
+        android:title="@string/action_del_all"
+        android:showAsAction="never"
+        android:icon="@drawable/ic_action_settings"
+        android:orderInCategory="100"/>
+
+</menu>

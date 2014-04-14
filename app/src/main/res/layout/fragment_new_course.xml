@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="13dp"
+    android:paddingRight="13dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="课程信息"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/default_text"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#999999"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/courseName"
+        android:hint="课程名" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/classRoom"
+        android:hint="上课地点" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/teacher"
+        android:hint="教师" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/range"
+        android:hint="第几周" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上课时间"
+        android:id="@+id/textView"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/default_text"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#999999"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/week_spinner" />
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_index">
+        </Spinner>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="其他设置"
+        android:id="@+id/textView"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/default_text"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="#999999"
+        />
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/type" />
+</LinearLayout>
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.eleven.app" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:name=".util.App"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo.Light" >
+        <activity
+            android:name="com.eleven.app.activities.MainActivity"
+            android:logo="@drawable/ic_launcher" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.eleven.app.activities.NewCourseActivity"
+            android:logo="@drawable/ic_launcher"
+            android:uiOptions="splitActionBarWhenNarrow">
+        </activity>
+    </application>
+
+</manifest>
