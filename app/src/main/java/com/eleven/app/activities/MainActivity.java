@@ -53,6 +53,7 @@ public class MainActivity extends FragmentActivity {
     public static final long SETTING_FRAGMENT = 1L << 3;
     public static final long NEW_COURSE_FRAGMENT = 1L << 4;
     public static final long COURSE_FRAGMENT = 1L << 5;
+    public static final long LOGIN_FRAGMENT = 1L << 6;
 
 
     // Now position
@@ -64,8 +65,9 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState != null) {
-            mPosition = savedInstanceState.getInt("drawerItemPos", 0);
+            mPosition = savedInstanceState.getInt("drawerItemPos", 1);
         } else {
+            mPosition = 1;
             Log.v("timetable3", "savedInstanceState is null");
         }
 
@@ -80,14 +82,16 @@ public class MainActivity extends FragmentActivity {
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
         // adding nav drawer items to array
-        // Info Center
+        // Login
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[0]));
-        // Day View
+        // Info Center
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[1]));
-        // Week View
+        // Day View
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2]));
+        // Week View
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
         // Setting
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], true, "22"));
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
 
 
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
@@ -181,15 +185,18 @@ public class MainActivity extends FragmentActivity {
         Fragment fragment = null;
         switch (position) {
             case 0:
-                fragment = new InfoCenterFragment();
+                fragment = new LoginFragment();
                 break;
             case 1:
-                fragment = new DayViewFragment();
+                fragment = new InfoCenterFragment();
                 break;
             case 2:
-                fragment = new WeekViewFragment();
+                fragment = new DayViewFragment();
                 break;
             case 3:
+                fragment = new WeekViewFragment();
+                break;
+            case 4:
                 fragment = new SettingFragment();
                 break;
             default:

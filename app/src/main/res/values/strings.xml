@@ -9,6 +9,7 @@
     <string name="action_del_all">清空课表</string>
 
     <string-array name="nav_drawer_items">
+         <item>登陆</item>
          <item>信息中心</item>
          <item>日视图</item>
          <item>周视图</item>
