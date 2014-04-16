@@ -17,6 +17,12 @@ import android.widget.RadioGroup;
 
 import com.eleven.app.R;
 import com.eleven.app.activities.MainActivity;
+import com.eleven.app.util.ClassInfo;
+import com.eleven.app.util.ModelPrinter;
+import com.eleven.app.util.WYUApi;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by eleven on 14-4-16.
@@ -35,10 +41,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Com
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View rootView       = inflater.inflate(R.layout.fragment_login, container, false);
-        mLoginnameText      = (EditText) rootView.findViewById(R.id.loginnameText);
-        mPassText           = (EditText) rootView.findViewById(R.id.passText);
-        mLoginBtn           = (Button) rootView.findViewById(R.id.loginCheck);
-        mShowPassCheck      = (CheckBox) rootView.findViewById(R.id.showPassBtn);
+        mLoginnameText      = (EditText)    rootView.findViewById(R.id.loginnameText);
+        mPassText           = (EditText)    rootView.findViewById(R.id.passText);
+        mLoginBtn           = (Button)      rootView.findViewById(R.id.loginCheck);
+        mShowPassCheck      = (CheckBox)    rootView.findViewById(R.id.showPassBtn);
         mLoginBtn.setOnClickListener(this);
         mShowPassCheck.setOnCheckedChangeListener(this);
         return rootView;
@@ -58,6 +64,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Com
 
     @Override
     public void onClick(View view) {
+        // 登录
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WYUApi api = new WYUApi("11080642", "******");
+                try {
+                    if (api.login(getActivity())) {
+                        List<ClassInfo> courses = api.getTimetable();
+                        for (ClassInfo c : courses) {
+                            System.out.print(c.classname);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
 
     }
 

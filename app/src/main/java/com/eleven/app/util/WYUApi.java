@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -38,12 +40,21 @@ import android.net.Proxy;
 import android.util.Log;
 
 public class WYUApi {
-    private String mUserID;
-    private String mUserPwd;
-    private static String mHtml = null;
-    private static String mRecords = null;
-    private CookieStore mCookieStore;
-    private boolean isWap;
+    private String              mUserID;
+
+    private String              mUserPwd;
+
+    private static String       mHtml = null;
+
+    private static String       mRecords = null;
+
+    private CookieStore         mCookieStore;
+
+    private DefaultHttpClient   mHttpClient;
+
+    private HttpResponse        mResponse;
+
+    static private String TAG = WYUApi.class.getSimpleName();
 
     /**
      *
@@ -55,10 +66,14 @@ public class WYUApi {
     public WYUApi(String userid, String userpwd) {
         mUserID = userid;
         mUserPwd = userpwd;
+
+        mHttpClient = new DefaultHttpClient();
+
+        mHttpClient.getParams().setIntParameter("http.socket.timeout", 10000);
     }
 
     /**
-     * 判断网络是否可用并设置是否为wap网络
+     * 判断网络是否可用
      *
      * @param context
      *            Context
@@ -69,19 +84,11 @@ public class WYUApi {
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
 
-        if (info == null)
+        if (info == null) {
             return false;
-
-        String typeName = info.getTypeName();
-        Log.v("NetworkType", typeName);
-        // Log.v("NetworkType", info.getExtraInfo());
-        if (typeName == "MOBILE" && info.getExtraInfo().equals("cmwap")) {
-            isWap = true;
         } else {
-            isWap = false;
+            return true;
         }
-
-        return true;
     }
 
     /***
@@ -93,46 +100,24 @@ public class WYUApi {
      */
     public boolean login(Context context) throws ClientProtocolException,
             IOException {
-        // 获取代理信息
-        String host = Proxy.getDefaultHost();
-        int port = Proxy.getDefaultPort();
-        Log.v("proxy", "host=" + host);
-        Log.v("proxy", "port" + port);
+        // Create session页面
+        mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/"));
+        mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/createsession_a.asp"));
+        mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/createsession_b.asp"));
+        // 请求验证码页面
+        mResponse = mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/rndnum.asp"));
 
-        // 先请求验证码页面
-        HttpClient httpClient = new DefaultHttpClient();
-        // 设置连接超时时间
-        httpClient.getParams().setIntParameter("http.socket.timeout", 10000);
+        Header h = mResponse.getFirstHeader("Set-Cookie");
+        HeaderElement[] he = h.getElements();
+        String randomNumber = he[0].getValue();
+        Log.v(TAG, "randomNumber=" + randomNumber);
 
-        if (isWap) {
-            Log.v("proxy", "yes");
-            // HttpHost httpHost = new HttpHost(host, port);
-            HttpHost httpHost = new HttpHost("10.0.0.172", 80, "http");
-            httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,
-                    httpHost);
-        }
-        HttpGet httpGet = new HttpGet("http://jwc.wyu.edu.cn/student/rndnum.asp");
-        httpClient.execute(httpGet);
-        httpClient.getConnectionManager().shutdown();
-        // 获取cookie
-        mCookieStore = ((DefaultHttpClient) httpClient).getCookieStore();
-        List<Cookie> cookies = mCookieStore.getCookies();
-
-        // 查找验证码的cookie在list的位置
-        int pos = 0;
-        for (int i = 0; i < cookies.size(); i++) {
-            if (cookies.get(i).getName() == "LogonNumber") {
-                pos = i;
-                break;
-            }
-        }
 
         // 构建post报头
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("UserCode", mUserID));
         params.add(new BasicNameValuePair("UserPwd", mUserPwd));
-        params.add(new BasicNameValuePair("Validate", cookies.get(pos)
-                .getValue().toString()));
+        params.add(new BasicNameValuePair("Validate", randomNumber));
 
         UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, "UTF-8");
 
@@ -140,70 +125,42 @@ public class WYUApi {
         HttpPost httpPost = new HttpPost(
                 "http://jwc.wyu.edu.cn/student/logon.asp");
         httpPost.setEntity(entity);
+        httpPost.setHeader("Referer", "http://jwc.wyu.edu.cn/student/body.htm");
 
         // 设置httpClient参数，不自动重定向
         HttpParams httpParams = new BasicHttpParams();
-        HttpClientParams.setRedirecting(httpParams, false);
+        HttpClientParams.setRedirecting(httpParams, true);
 
-        DefaultHttpClient httpClient2 = new DefaultHttpClient(httpParams);
-        // 设置连接超时
-        httpClient2.getParams().setIntParameter("http.socket.timeout", 10000);
-        httpClient2.setCookieStore(mCookieStore);
-
-        if (isWap) {
-            // HttpHost httpHost = new HttpHost(host, port);
-            HttpHost httpHost = new HttpHost("10.0.0.172", 80, "http");
-            httpClient2.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,
-                    httpHost);
-            Log.v("wap", "true");
-        }
 
         HttpContext localContext = new BasicHttpContext();
 
         // 登录
-        HttpResponse response = httpClient2.execute(httpPost, localContext);
-        httpClient2.getConnectionManager().shutdown();
-        Log.v("response", response.getStatusLine().toString());
+        mResponse = mHttpClient.execute(httpPost, localContext);
+        //getResponseContent(mResponse);
+        Log.v(TAG, mResponse.getStatusLine().toString());
 
-        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-            // 登录失败
-            Log.v("return", "false");
+        if (mResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            Log.v(TAG, "登录失败");
             return false;
+        } else {
+            Log.v(TAG, "登录成功");
+            return true;
         }
-        return true;
     }
 
     public List<ClassInfo> getTimetable() throws IOException {
-        // 获取代理信息
-        String host = Proxy.getDefaultHost();
-        int port = Proxy.getDefaultPort();
-        Log.v("proxy", "host=" + host);
-        Log.v("proxy", "port" + port);
-
         // 请求课程表(f3.app)页面
         HttpGet httpGet = new HttpGet("http://jwc.wyu.edu.cn/student/f3.asp");
 
-        HttpClient httpClient = new DefaultHttpClient();
-        // 设置超时
-        httpClient.getParams().setIntParameter("http.socket.timeout", 20000);
-        ((DefaultHttpClient) httpClient).setCookieStore(mCookieStore);
-        if (isWap) {
-            // HttpHost httpHost = new HttpHost(host, port);
-            HttpHost httpHost = new HttpHost("10.0.0.172", 80, "http");
-            httpClient.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,
-                    httpHost);
-        }
-
-        HttpResponse response;
         try {
-            response = httpClient.execute(httpGet);
-            Log.v("response3", response.getStatusLine().toString());
-            HttpEntity entity = response.getEntity();
+            mResponse = mHttpClient.execute(httpGet);
+            Log.v(TAG, "f3 " + mResponse.getStatusLine().toString());
+            HttpEntity entity = mResponse.getEntity();
             if (entity != null) {
                 mHtml = new String(EntityUtils.toString(entity).getBytes(
                         "ISO-8859-1"), "GB2312");
-                Log.v("html_size", "" + mHtml.length());
-                Log.v("html_content", mHtml);
+                Log.v(TAG, "html_size:" + mHtml.length());
+                //Log.v(TAG, mHtml);
             } else {
                 return null;
             }
@@ -211,78 +168,26 @@ public class WYUApi {
             throw e;
         } catch (IOException e) {
             throw e;
-        } finally{
-            httpClient.getConnectionManager().shutdown();
         }
         return WYUParser.parseTimetable(mHtml);
 
     }
 
-    // 下载数据
-    public boolean downloadData(Context context)
-            throws ClientProtocolException, IOException {
-        // 获取代理信息
-        String host = Proxy.getDefaultHost();
-        int port = Proxy.getDefaultPort();
-        Log.v("proxy", "host=" + host);
-        Log.v("proxy", "port" + port);
-
-        // 请求f3.app页面
-        HttpGet httpGet2 = new HttpGet("http://jwc.wyu.edu.cn/student/f3.asp");
-
-        HttpClient httpClient3 = new DefaultHttpClient();
-        // 设置超时
-        httpClient3.getParams().setIntParameter("http.socket.timeout", 20000);
-        ((DefaultHttpClient) httpClient3).setCookieStore(mCookieStore);
-        if (isWap) {
-            // HttpHost httpHost = new HttpHost(host, port);
-            HttpHost httpHost = new HttpHost("10.0.0.172", 80, "http");
-            httpClient3.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,
-                    httpHost);
+    public String getResponseContent(HttpResponse response) {
+        try {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                String content = new String(EntityUtils.toString(entity).getBytes("ISO-8859-1"), "GB2312");
+                Log.v(TAG, "html_size:" + content.length());
+                Log.v(TAG, content);
+                return content;
+            } else {
+                return null;
+            }
+        } catch(IOException e){
+            System.out.print(e.getMessage());
         }
-
-        HttpResponse response = httpClient3.execute(httpGet2);
-        Log.v("response3", response.getStatusLine().toString());
-        HttpEntity entity2 = response.getEntity();
-        if (entity2 != null) {
-            mHtml = new String(EntityUtils.toString(entity2).getBytes(
-                    "ISO-8859-1"), "GB2312");
-            Log.v("html_size", "" + mHtml.length());
-            // Log.v("html_content", mHtml);
-            httpClient3.getConnectionManager().shutdown(); // 关闭httpclient并释放资源
-        } else {
-            httpClient3.getConnectionManager().shutdown();
-            return false;
-        }
-
-        // 请求f4.asp
-        HttpGet httpGet3 = new HttpGet("http://jwc.wyu.edu.cn/student/f4.asp");
-        HttpClient httpClient4 = new DefaultHttpClient();
-
-        // 设置超时
-        httpClient4.getParams().setIntParameter("http.socket.timeout", 400000);
-        ((DefaultHttpClient) httpClient4).setCookieStore(mCookieStore);
-        if (isWap) {
-            HttpHost httpHost = new HttpHost("10.0.0.172", 80, "http");
-            httpClient4.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY,
-                    httpHost);
-        }
-
-        HttpResponse response2 = httpClient4.execute(httpGet3);
-        Log.v("response4", response2.getStatusLine().toString());
-        HttpEntity entity3 = response2.getEntity();
-        if (entity3 != null) {
-            mRecords = new String(EntityUtils.toString(entity3).getBytes(
-                    "ISO-8859-1"), "GB2312");
-            // Log.v("html_content", mRecords);
-            // Log.v("html_size", "" + mRecords.length());
-            httpClient4.getConnectionManager().shutdown();
-        } else {
-            httpClient4.getConnectionManager().shutdown();
-            return false;
-        }
-
-        return true;
+        return null;
     }
 
     // 返回课程表html文档
