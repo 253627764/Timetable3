@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,8 @@ import java.util.List;
  * Created by eleven on 14-4-16.
  */
 public class LoginFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+
+    private  static String TAG = LoginFragment.class.getSimpleName();
 
     protected EditText      mLoginnameText;
     protected EditText      mPassText;
@@ -72,8 +75,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Com
                 try {
                     if (api.login(getActivity())) {
                         List<ClassInfo> courses = api.getTimetable();
+                        Log.v(TAG, "coures length=" + courses.size());
                         for (ClassInfo c : courses) {
-                            System.out.print(c.classname);
+                            Log.v(TAG, "classname=" + c.classname);
                         }
                     }
                 } catch (IOException e) {
