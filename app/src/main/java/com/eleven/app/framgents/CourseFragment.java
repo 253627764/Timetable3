@@ -65,7 +65,8 @@ public class CourseFragment extends Fragment {
         return false;
     }
 
-    @Subscribe public void onConfirmEvent(ConfirmEvent event) {
+    @Subscribe
+    public void onConfirmEvent(ConfirmEvent event) {
         if (event.getMsg() == ConfirmEvent.DELETE_COURSE) {
             CourseManager.deleteCourse(mCourse);
             Toast.makeText(getActivity(), "删除1门课程", Toast.LENGTH_SHORT).show();

@@ -1,6 +1,8 @@
 package com.eleven.app.models;
 
 
+import com.eleven.app.util.ClassInfo;
+
 /**
  * Created by Eleven on 14-2-16.
  */
@@ -31,6 +33,15 @@ public class Course {
         setTeacher(teacher);
         setType(type);
         setWeek(week);
+    }
+
+    public Course(ClassInfo info) {
+        setCourseName(info.classname);
+        setClassroom(info.location);
+        setTeacher(info.teacher);
+        setCourseNumber(info.classtime-1);
+        setRange(info.time);
+        setWeek(info.week);
     }
 
     public Course() {};

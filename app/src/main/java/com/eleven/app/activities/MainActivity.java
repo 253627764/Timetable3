@@ -1,4 +1,5 @@
 package com.eleven.app.activities;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -215,7 +217,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    private void displayFragment(Fragment fragment) {
+    public void displayFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.frame_container, fragment,"TAG").commit();
@@ -271,6 +273,7 @@ public class MainActivity extends FragmentActivity {
         super.onPause();
         App.getBus().unregister(this);
     }
+
 
     public void setCurrentFragmentId(long fragmentId) {
         mCurrentFragmentId = fragmentId;

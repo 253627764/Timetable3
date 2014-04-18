@@ -159,7 +159,7 @@ public class WYUApi {
             if (entity != null) {
                 mHtml = new String(EntityUtils.toString(entity).getBytes(
                         "ISO-8859-1"), "GB2312");
-                Log.v(TAG, "html_size:" + mHtml.length());
+                //Log.v(TAG, "html_size:" + mHtml.length());
                 //Log.v(TAG, mHtml);
             } else {
                 return null;
@@ -168,6 +168,9 @@ public class WYUApi {
             throw e;
         } catch (IOException e) {
             throw e;
+        }
+        if (mHtml.length() <= 127) {
+            return null;
         }
         return WYUParser.parseTimetable(mHtml);
 

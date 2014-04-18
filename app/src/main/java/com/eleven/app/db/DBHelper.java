@@ -67,7 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_WEEK, course.getWeek());
 
         long rowId = db.insert(TABLE_TIMETABLE, null, values);
-        Log.v(DBHelper.class.getName(), "rowId=" + rowId);
+        //Log.v(DBHelper.class.getName(), "rowId=" + rowId);
         db.close();
         return rowId;
     }

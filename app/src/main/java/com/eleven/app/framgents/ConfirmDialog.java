@@ -44,13 +44,15 @@ public class ConfirmDialog extends DialogFragment {
                        App.getBus().post(new ConfirmEvent(callbackMsg));
                        dialog.dismiss();
                    }
-               })
-               .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                   }
                });
+        if (callbackMsg != ConfirmEvent.EMPTY) {
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        }
         return builder.create();
     }
 
