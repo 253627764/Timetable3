@@ -88,4 +88,20 @@ public class CourseManager {
         courses.clear();
         App.getDBHelper().deleteAll();
     }
+
+    /**
+     * 获取星期几第几节课
+     * @param courseNumber
+     * @param week
+     * @return
+     */
+    public static String getCourseName(int courseNumber, int week) {
+        String name = "";
+        for (Course course : courses) {
+            if (course.getWeek() == week && course.getCourseNumber() == courseNumber) {
+                name += course.getCourseName() + "\n";
+            }
+        }
+        return name;
+    }
 }
