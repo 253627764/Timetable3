@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="时间"
+        android:key="pref_key_time_settings">
+
+        <PreferenceScreen
+            android:title="上课时间"
+            android:persistent="false"
+            android:key="pref_key_course_settings">
+            <com.eleven.app.preference.NumberPreference
+                android:key="@string/pref_key_course_time"
+                android:summary="45分钟"
+                android:title="每小节课时间"
+                android:defaultValue="90"/>
+            <com.eleven.app.preference.NumberPreference
+                android:key="@string/pref_key_course_break"
+                android:summary="15分钟"
+                android:title="休息时间"
+                android:defaultValue="90"/>
+            <com.eleven.app.preference.TimePreference
+                android:key="@string/pref_key_time_1"
+                android:summary="8:15"
+                android:title="第一大节课"
+                android:defaultValue="08:15"/>
+            <com.eleven.app.preference.TimePreference
+                android:key="@string/pref_key_time_2"
+                android:summary="10:10"
+                android:title="第二大节课"
+                android:defaultValue="10:10"/>
+            <com.eleven.app.preference.TimePreference
+                android:key="@string/pref_key_time_3"
+                android:summary="14:45"
+                android:title="第三大节课"
+                android:defaultValue="14:45"/>
+            <com.eleven.app.preference.TimePreference
+                android:key="@string/pref_key_time_4"
+                android:summary="16:30"
+                android:title="第四大节课"
+                android:defaultValue="16:30"/>
+            <com.eleven.app.preference.TimePreference
+                android:key="@string/pref_key_time_5"
+                android:summary="19:30"
+                android:title="第五大节课"
+                android:defaultValue="19:30"/>
+        </PreferenceScreen>
+        <com.eleven.app.preference.WeekPreference
+            android:key="@string/pref_key_week"
+            android:defaultValue="1"
+            android:title="第几周"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

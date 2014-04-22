@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import com.eleven.app.R;
 import com.eleven.app.models.Course;
+import com.eleven.app.util.App;
+
+import java.util.Calendar;
+import java.util.Date;
 
 import it.gmariotti.cardslib.library.internal.Card;
 
@@ -24,6 +28,7 @@ public class CourseCard extends Card {
     private TextView teacherView;
     private TextView rangeView;
     private Course mCourse;
+    private Context mContext;
 
     public CourseCard(Context context, Course course) {
         this(context, R.layout.card_item, course);
@@ -32,6 +37,7 @@ public class CourseCard extends Card {
     public CourseCard(Context context, int innerLayout, Course course) {
         super(context, innerLayout);
         this.mCourse = course;
+        mContext = context;
         init();
     }
 
@@ -49,7 +55,8 @@ public class CourseCard extends Card {
         rangeView = (TextView) parent.findViewById(R.id.range);
         courseNameView.setText(mCourse.getCourseName());
         courseClassroomView.setText(mCourse.getClassroom());
-        courseTimeView.setText("8:00 - 9:00");
+        //courseTimeView.setText("8:00 - 9:00");
+        courseTimeView.setText(getCourseTimeRange(mCourse.getCourseNumber()+1));
         String courseNumber = getContext().getResources().getString(R.string.courseNumber);
         courseNumber = String.format(courseNumber, mCourse.getCourseNumber()+1);
         courseNumberView.setText(courseNumber);
@@ -61,5 +68,38 @@ public class CourseCard extends Card {
 
     public Course getCourse() {
         return mCourse;
+    }
+
+    private String getCourseTimeRange(int num) {
+        int eachTime = App.getPreferences().getInt(mContext.getString(R.string.pref_key_course_time), 45);
+        int breakTime = App.getPreferences().getInt(mContext.getString(R.string.pref_key_course_break), 15);
+        String startTimeStr = "00:00";
+        switch (num) {
+            case 1:
+                startTimeStr = App.getPreferences().getString(mContext.getString(R.string.pref_key_time_1), "08:15");
+                break;
+            case 2:
+                startTimeStr = App.getPreferences().getString(mContext.getString(R.string.pref_key_time_2), "10:15");
+                break;
+            case 3:
+                startTimeStr = App.getPreferences().getString(mContext.getString(R.string.pref_key_time_3), "14:45");
+                break;
+            case 4:
+                startTimeStr = App.getPreferences().getString(mContext.getString(R.string.pref_key_time_4), "16:30");
+                break;
+            case 5:
+                startTimeStr = App.getPreferences().getString(mContext.getString(R.string.pref_key_time_5), "19:30");
+                break;
+        }
+        int hh = Integer.parseInt(startTimeStr.split(":")[0]);
+        int mm = Integer.parseInt(startTimeStr.split(":")[1]);
+
+        mm += eachTime * 2 + breakTime;
+        hh += mm / 60;
+        mm = mm % 60;
+        String timeStr = String.format("%s - %02d:%02d", startTimeStr,hh,mm);
+
+        return timeStr;
+
     }
 }

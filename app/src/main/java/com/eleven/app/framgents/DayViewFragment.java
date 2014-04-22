@@ -56,23 +56,26 @@ public class DayViewFragment extends Fragment {
 
     private List<List> mCardList;
 
+    private String[] mWeekArr;
+
 	public DayViewFragment(){}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
         Log.v("DayViewFragment", "onCreateView");
+        mWeekArr = getResources().getStringArray(R.array.week_array);
         setHasOptionsMenu(true);
 		View rootView;
         rootView = inflater.inflate(R.layout.fragment_day_view, container, false);
         mViewPager = (CourseViewPager) rootView.findViewById(R.id.viewPager);
-		mPages = new View[7];
-        mCardListViews = new CardListView[7];
-        mCardArrayAdapter = new MyCardArrayMultiChoiceAdapter[7];
+		mPages = new View[5];
+        mCardListViews = new CardListView[5];
+        mCardArrayAdapter = new MyCardArrayMultiChoiceAdapter[5];
         mCardList = new ArrayList<List>();
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 5; i++) {
 			mPages[i] = inflater.inflate(R.layout.card_view, null);
-            ArrayList<Card> cards = getCards(i);
+            ArrayList<Card> cards = getCards(i+1);
             mCardList.add(cards);
             mCardListViews[i] = (CardListView) mPages[i].findViewById(R.id.cardList);
             mCardArrayAdapter[i] = new MyCardArrayMultiChoiceAdapter(getActivity(), this, cards);
@@ -118,7 +121,7 @@ public class DayViewFragment extends Fragment {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 7;
+			return mPages.length;
 		}
 
 		@Override
@@ -139,7 +142,7 @@ public class DayViewFragment extends Fragment {
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return "星期" + position;
+			return mWeekArr[position+1];
 		}
 	}
 

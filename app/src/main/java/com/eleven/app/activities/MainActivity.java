@@ -1,5 +1,6 @@
 package com.eleven.app.activities;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -52,10 +53,9 @@ public class MainActivity extends FragmentActivity {
     public static final long INFO_FRAGMENT = 1L;
     public static final long DAY_FRAGMENT = 1L << 1;
     public static final long WEEK_FRAGMENT = 1L << 2;
-    public static final long SETTING_FRAGMENT = 1L << 3;
-    public static final long NEW_COURSE_FRAGMENT = 1L << 4;
-    public static final long COURSE_FRAGMENT = 1L << 5;
-    public static final long LOGIN_FRAGMENT = 1L << 6;
+    public static final long NEW_COURSE_FRAGMENT = 1L << 3;
+    public static final long COURSE_FRAGMENT = 1L << 4;
+    public static final long LOGIN_FRAGMENT = 1L << 5;
 
 
     // Now position
@@ -92,9 +92,6 @@ public class MainActivity extends FragmentActivity {
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[2]));
         // Week View
         navDrawerItems.add(new NavDrawerItem(navMenuTitles[3]));
-        // Setting
-        navDrawerItems.add(new NavDrawerItem(navMenuTitles[4]));
-
 
         mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
@@ -154,6 +151,8 @@ public class MainActivity extends FragmentActivity {
         // Handle action bar actions click
         switch (item.getItemId()) {
             case R.id.action_settings:
+                Intent intent = new Intent(this, SettingActivity.class);
+                this.startActivity(intent);
                 return true;
             case R.id.action_del_all:
                 deleteAllCourse();
@@ -163,26 +162,10 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-
-
-    /* *
-     * Called when invalidateOptionsMenu() is triggered
-     */
-    /*
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // if nav drawer is opened, hide the action items
-        if (menu != null) {
-            boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-            menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-        }
-        return super.onPrepareOptionsMenu(menu);
-    }
-    */
     /**
      * Diplaying fragment view for selected nav drawer list item
      * */
-    private void displayView(int position) {
+    public void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
         switch (position) {
@@ -197,9 +180,6 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 3:
                 fragment = new WeekViewFragment();
-                break;
-            case 4:
-                fragment = new SettingFragment();
                 break;
             default:
                 break;

@@ -101,9 +101,9 @@ public class WYUApi {
     public boolean login(Context context) throws ClientProtocolException,
             IOException {
         // Create session页面
-        mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/"));
-        mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/createsession_a.asp"));
-        mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/createsession_b.asp"));
+        //mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/"));
+        //mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/createsession_a.asp"));
+        //mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/createsession_b.asp"));
         // 请求验证码页面
         mResponse = mHttpClient.execute(new HttpGet("http://jwc.wyu.edu.cn/student/rndnum.asp"));
 
@@ -143,6 +143,7 @@ public class WYUApi {
             Log.v(TAG, "登录失败");
             return false;
         } else {
+            mCookieStore = mHttpClient.getCookieStore();
             Log.v(TAG, "登录成功");
             return true;
         }
@@ -151,19 +152,12 @@ public class WYUApi {
     public List<ClassInfo> getTimetable() throws IOException {
         // 请求课程表(f3.app)页面
         HttpGet httpGet = new HttpGet("http://jwc.wyu.edu.cn/student/f3.asp");
-
+        httpGet.setHeader("Referer", "http://jwc.wyu.edu.cn/student/body.htm");
         try {
             mResponse = mHttpClient.execute(httpGet);
             Log.v(TAG, "f3 " + mResponse.getStatusLine().toString());
             HttpEntity entity = mResponse.getEntity();
-            if (entity != null) {
-                mHtml = new String(EntityUtils.toString(entity).getBytes(
-                        "ISO-8859-1"), "GB2312");
-                //Log.v(TAG, "html_size:" + mHtml.length());
-                //Log.v(TAG, mHtml);
-            } else {
-                return null;
-            }
+            mHtml = getResponseContent(mResponse);
         } catch (ClientProtocolException e) {
             throw e;
         } catch (IOException e) {

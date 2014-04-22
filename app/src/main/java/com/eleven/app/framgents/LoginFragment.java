@@ -57,8 +57,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Com
             super.handleMessage(msg);
             mProgressDialog.dismiss();
             Toast.makeText(getActivity(),"同步课表成功", Toast.LENGTH_LONG).show();
-            DayViewFragment fragment = new DayViewFragment();
-            ((MainActivity)getActivity()).displayFragment(fragment);
+            ((MainActivity)getActivity()).displayView(1);
         }
     };
 
@@ -132,10 +131,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Com
                             Course course = new Course(c);
                             CourseManager.addCourse(course);
                         }
-                        //App.getBus().post(new SyncTimableSuccessedEvent());
                         mHandler.sendEmptyMessage(0);
                     } else {
                         new ConfirmDialog("账号或密码错误", ConfirmEvent.EMPTY).show(getFragmentManager(), "error");
+                        mProgressDialog.dismiss();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

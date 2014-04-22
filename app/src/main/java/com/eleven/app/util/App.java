@@ -3,6 +3,7 @@ package com.eleven.app.util;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.eleven.app.db.DBHelper;
@@ -48,7 +49,7 @@ public class App extends Application{
         mBus = new Bus(ThreadEnforcer.ANY);
         mDBHelper = new DBHelper(this);
         CourseManager.init(this);
-        mPreferences = getSharedPreferences(PREFS_NAME, 0);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mImm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
     }
