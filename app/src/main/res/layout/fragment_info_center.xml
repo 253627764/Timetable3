@@ -3,26 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+
+
+    <it.gmariotti.cardslib.library.view.CardView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"/>
     
     <TextView
-        android:id="@+id/txtLabel"
-         android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16dp"
-        android:text="用户中心"/>
-    <TextView
-        android:id="@+id/font"
-        android:layout_width="wrap_content"
+        android:text="下一节课"
+        android:textColor="@color/blue2"
+        android:textSize="20dp"
+        android:paddingTop="12dp"
+        android:paddingLeft="12dp"/>
+    <it.gmariotti.cardslib.library.view.CardView
+        android:id="@+id/nextCourse"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/fa_android"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16dp"
-        android:text="用户中心"/>
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"/>
 
 </LinearLayout>

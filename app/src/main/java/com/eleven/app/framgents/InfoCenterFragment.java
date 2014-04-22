@@ -3,6 +3,8 @@ package com.eleven.app.framgents;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,8 +15,23 @@ import android.widget.TextView;
 
 import com.eleven.app.R;
 import com.eleven.app.activities.MainActivity;
+import com.eleven.app.view.TimeCard;
+
+import java.util.Calendar;
+import java.util.logging.LogRecord;
+
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.view.CardView;
 
 public class InfoCenterFragment extends Fragment {
+
+    private Handler clockHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Calendar calendar = Calendar.getInstance();
+        }
+    };
 	
 	public InfoCenterFragment(){}
 
@@ -23,9 +40,17 @@ public class InfoCenterFragment extends Fragment {
 			Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 		View rootView = inflater.inflate(R.layout.fragment_info_center, container, false);
-        TextView textView = (TextView)rootView.findViewById(R.id.font);
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fontawesome-webfont.ttf");
-        textView.setTypeface(font);
+        Card card = new Card(getActivity());
+        CardHeader header = new CardHeader(getActivity());
+        header.setTitle("软件工程");
+        card.addCardHeader(header);
+        card.setTitle("主楼");
+        CardView cardView = (CardView)rootView.findViewById(R.id.nextCourse);
+        cardView.setCard(card);
+
+        TimeCard timeCard = new TimeCard(getActivity());
+        CardView timeCardView = (CardView)rootView.findViewById(R.id.time);
+        timeCardView.setCard(timeCard);
         return rootView;
 	}
 
