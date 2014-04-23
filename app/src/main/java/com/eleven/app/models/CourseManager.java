@@ -104,4 +104,13 @@ public class CourseManager {
         }
         return name;
     }
+
+    public static Course getCourse(int courseNumber, int week) {
+        for (Course course : courses) {
+            if (course.getWeek() == week && course.getCourseNumber() == courseNumber) {
+                return course;
+            }
+        }
+        return null;
+    }
 }

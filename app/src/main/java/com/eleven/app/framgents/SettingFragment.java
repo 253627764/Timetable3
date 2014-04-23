@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.eleven.app.R;
 import com.eleven.app.activities.MainActivity;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,9 +72,26 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         } else if(key.equals(getString(R.string.pref_key_course_break))) {
             preference.setSummary(sharedPreferences.getInt(key, 15) + "分钟");
         } else if(key.equals(getString(R.string.pref_key_week))) {
-            preference.setTitle("第" + sharedPreferences.getInt(key, 1) + "周");
+            int week = sharedPreferences.getInt(key, 1);
+            calStartTime(sharedPreferences, week);
+            preference.setTitle("第" + week + "周");
+        } else if(key.equals("startDay") ) {
+            return;
         } else {
             preference.setSummary(sharedPreferences.getString(key, defalutTime.get(key)));
         }
+    }
+
+    public void calStartTime(SharedPreferences sharedPreferences, int week) {
+        Calendar calendar = Calendar.getInstance();
+        int day = (int)(System.currentTimeMillis() / 1000 / 60 / 60 / 24);
+        Log.v(TAG, "day=" + day);
+        int normalDay = day - calendar.get(Calendar.DAY_OF_WEEK) + 1;
+        int startDay = normalDay - (7 * (week-1));
+        Log.v(TAG, "startDay" + startDay);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("startDay", startDay);
+        editor.commit();
+
     }
 }

@@ -23,14 +23,14 @@
                 android:id="@+id/courseNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="第1节课"
+                android:text=""
                 android:textColor="@color/default_text"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/courseTime"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="8:00 - 9:00"
+                android:text=""
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/sub_text"
                 android:gravity="center"/>
@@ -44,14 +44,14 @@
                 android:id="@+id/courseName"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Java程序设计"
+                android:text=""
                 android:textSize="@dimen/big_text"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/teacher"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="刘佳"
+                android:text=""
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/sub_text"
                 android:gravity="center"/>
@@ -66,13 +66,13 @@
                 android:id="@+id/courseClassroom"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="黄浩川101"
+                android:text=""
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/range"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="第10周"
+                android:text=""
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/sub_text"
                 android:gravity="center"/>

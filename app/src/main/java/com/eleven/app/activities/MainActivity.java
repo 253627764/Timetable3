@@ -203,6 +203,14 @@ public class MainActivity extends FragmentActivity {
                 .replace(R.id.frame_container, fragment,"TAG").commit();
     }
 
+    public void pushFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.frame_container, fragment, "TAG");
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;

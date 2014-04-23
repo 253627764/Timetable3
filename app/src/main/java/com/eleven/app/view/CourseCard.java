@@ -53,15 +53,19 @@ public class CourseCard extends Card {
         courseNumberView = (TextView) parent.findViewById(R.id.courseNumber);
         teacherView = (TextView) parent.findViewById(R.id.teacher);
         rangeView = (TextView) parent.findViewById(R.id.range);
-        courseNameView.setText(mCourse.getCourseName());
-        courseClassroomView.setText(mCourse.getClassroom());
-        //courseTimeView.setText("8:00 - 9:00");
-        courseTimeView.setText(getCourseTimeRange(mCourse.getCourseNumber()+1));
-        String courseNumber = getContext().getResources().getString(R.string.courseNumber);
-        courseNumber = String.format(courseNumber, mCourse.getCourseNumber()+1);
-        courseNumberView.setText(courseNumber);
-        teacherView.setText(mCourse.getTeacher());
-        rangeView.setText(mCourse.getRange());
+        if (mCourse != null) {
+            courseNameView.setText(mCourse.getCourseName());
+            courseClassroomView.setText(mCourse.getClassroom());
+            //courseTimeView.setText("8:00 - 9:00");
+            courseTimeView.setText(getCourseTimeRange(mCourse.getCourseNumber() + 1));
+            String courseNumber = getContext().getResources().getString(R.string.courseNumber);
+            courseNumber = String.format(courseNumber, mCourse.getCourseNumber() + 1);
+            courseNumberView.setText(courseNumber);
+            teacherView.setText(mCourse.getTeacher());
+            rangeView.setText(mCourse.getRange());
+        } else {
+            courseNameView.setText("暂无课程");
+        }
     }
 
 
