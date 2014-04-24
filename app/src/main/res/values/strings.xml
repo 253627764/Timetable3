@@ -35,6 +35,12 @@
         <item>必修</item>
         <item>选修</item>
     </string-array>
+    <string-array name="remind_time_array">
+        <item>上课前 10分钟</item>
+        <item>上课前 15分钟</item>
+        <item>上课前 20分钟</item>
+        <item>上课前 30分钟</item>
+    </string-array>
 
     <string name="pref_key_time_1">pref_key_time_1</string>
     <string name="pref_key_time_2">pref_key_time_2</string>
@@ -44,6 +50,7 @@
     <string name="pref_key_course_time">pref_key_course_time</string>
     <string name="pref_key_course_break">pref_key_course_break</string>
     <string name="pref_key_week">pref_key_week</string>
+    <string name="pref_key_remind">pref_key_remind</string>
 
 
     <string name="courseNumber">第%d节课</string>

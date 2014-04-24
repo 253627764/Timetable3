@@ -25,7 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_TIMETABLE +
             " (_id INTEGER PRIMARY KEY AUTOINCREMENT, courseName TEXT, courseNumber INTEGER, " +
             "classroom TEXT, teacher TEXT, " +
-            "type INTEGER, week INTEGER, range TEXT)";
+            "type INTEGER, week INTEGER, range TEXT ," +
+            "isRemind INTEGER, remindAhead INTEGER)";
 
     private static final String KEY_COURSE_NAME = "courseName";
     private static final String KEY_COURSE_NUMBER = "courseNumber";
@@ -34,6 +35,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String KEY_TYPE = "type";
     private static final String KEY_WEEK = "week";
     private static final String KEY_RANGE = "range";
+    private static final String KEY_IS_REMIND = "isRemind"; // 0, 1
+    private static final String KEY_REMIND_AHEAD = "remindAhead";
 
 
     private Context mContext;
@@ -65,6 +68,8 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_TEACHER, course.getTeacher());
         values.put(KEY_TYPE, course.getType());
         values.put(KEY_WEEK, course.getWeek());
+        values.put(KEY_IS_REMIND, course.isRemind()==true? 1: 0);
+        values.put(KEY_REMIND_AHEAD, course.getRemindAhead());
 
         long rowId = db.insert(TABLE_TIMETABLE, null, values);
         //Log.v(DBHelper.class.getName(), "rowId=" + rowId);
@@ -107,6 +112,8 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(KEY_TEACHER, course.getTeacher());
         values.put(KEY_TYPE, course.getType());
         values.put(KEY_WEEK, course.getWeek());
+        values.put(KEY_IS_REMIND, course.isRemind()==true? 1: 0);
+        values.put(KEY_REMIND_AHEAD, course.getRemindAhead());
         try {
             return db.update(TABLE_TIMETABLE, values, "_id=?", new String[]{String.valueOf(course.getId())});
         } finally {
@@ -131,6 +138,8 @@ public class DBHelper extends SQLiteOpenHelper {
         course.setType(cursor.getInt(5));
         course.setWeek(cursor.getInt(6));
         course.setRange(cursor.getString(7));
+        course.setRemind(cursor.getInt(8) == 1? true: false);
+        course.setRemindAhead(cursor.getInt(9));
         return course;
     }
 

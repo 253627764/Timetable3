@@ -24,6 +24,10 @@ public class Course {
 
     private String range;
 
+    private boolean isRemind;
+
+    private int remindAhead;
+
 
     public Course(int id, String courseName, int courseNumber, String classroom, String teacher, int type, int week) {
         setId(id);
@@ -33,6 +37,8 @@ public class Course {
         setTeacher(teacher);
         setType(type);
         setWeek(week);
+        setRemind(false);
+        setRemindAhead(0);
     }
 
     public Course(ClassInfo info) {
@@ -42,6 +48,8 @@ public class Course {
         setCourseNumber(info.classtime-1);
         setRange(info.time);
         setWeek(info.week);
+        setRemind(false);
+        setRemindAhead(0);
     }
 
     public Course() {};
@@ -108,5 +116,21 @@ public class Course {
 
     public void setRange(String range) {
         this.range = range;
+    }
+
+    public boolean isRemind() {
+        return isRemind;
+    }
+
+    public void setRemind(boolean isRemind) {
+        this.isRemind = isRemind;
+    }
+
+    public int getRemindAhead() {
+        return remindAhead;
+    }
+
+    public void setRemindAhead(int remindAhead) {
+        this.remindAhead = remindAhead;
     }
 }

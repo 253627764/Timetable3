@@ -23,7 +23,7 @@
 
     <TableLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <TableRow
@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textSize="20dp"
                 android:textAppearance="?android:textAppearance"
                 android:text="时间"/>
             <TextView
@@ -44,6 +45,7 @@
                 android:layout_weight="1"
                 android:textAppearance="?android:textAppearance"
                 android:text="第一节"
+                android:textSize="20dp"
                 android:gravity="right"/>
         </TableRow>
         <TableRow
@@ -55,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textSize="20dp"
                 android:textAppearance="?android:textAppearance"
                 android:text="老师"/>
             <TextView
@@ -64,6 +67,7 @@
                 android:layout_weight="1"
                 android:textAppearance="?android:textAppearance"
                 android:text="刘佳"
+                android:textSize="20dp"
                 android:gravity="right"/>
         </TableRow>
         <TableRow
@@ -75,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textSize="20dp"
                 android:textAppearance="?android:textAppearance"
                 android:text="教室"/>
             <TextView
@@ -84,6 +89,7 @@
                 android:layout_weight="1"
                 android:textAppearance="?android:textAppearance"
                 android:text="主楼"
+                android:textSize="20dp"
                 android:gravity="right"/>
         </TableRow>
         <TableRow
@@ -95,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textSize="20dp"
                 android:textAppearance="?android:textAppearance"
                 android:text="周数"/>
             <TextView
@@ -103,8 +110,52 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:text="12周"
+                android:textSize="20dp"
                 android:textAppearance="?android:textAppearance"
                 android:gravity="right"/>
         </TableRow>
     </TableLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="上课提醒"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:textAppearanceLarge"/>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="#999999">
+    </View>
+
+    <Switch
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="开启提醒"
+        android:id="@+id/remindSwitch"
+        android:layout_gravity="center_horizontal" />
+    <LinearLayout
+        android:id="@+id/remind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="提醒时间"
+            android:textSize="20dp"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/remindTime"
+            android:layout_gravity="center_horizontal" />
+     </LinearLayout>
+
+
 </LinearLayout>

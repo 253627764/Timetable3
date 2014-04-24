@@ -11,6 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +34,8 @@ import com.squareup.otto.Subscribe;
 
 
 public class CourseFragment extends Fragment {
+
+    private static String TAG = CourseFragment.class.getSimpleName();
 
     private Course mCourse;
 
@@ -86,6 +95,39 @@ public class CourseFragment extends Fragment {
         ((TextView) rootView.findViewById(R.id.teacher)).setText(mCourse.getTeacher());
         ((TextView) rootView.findViewById(R.id.classroom)).setText(mCourse.getClassroom());
         ((TextView) rootView.findViewById(R.id.range)).setText(mCourse.getRange());
+
+        Switch remindSwitch = (Switch) rootView.findViewById(R.id.remindSwitch);
+        remindSwitch.setChecked(mCourse.isRemind());
+        final LinearLayout remindLayout = (LinearLayout) rootView.findViewById(R.id.remind);
+        remindSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    mCourse.setRemind(true);
+                    remindLayout.setVisibility(View.VISIBLE);
+                } else {
+                    remindLayout.setVisibility(View.GONE);
+                    mCourse.setRemind(false);
+                }
+                CourseManager.updateCourse(mCourse);
+            }
+        });
+        final Spinner remindSpinner = (Spinner) rootView.findViewById(R.id.remindTime);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.remind_time_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        remindSpinner.setAdapter(adapter);
+        remindSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] arr = getResources().getStringArray(R.array.remind_time_array);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         return rootView;
     }
 

@@ -49,6 +49,15 @@
             android:key="@string/pref_key_week"
             android:defaultValue="1"
             android:title="第几周"/>
+        <PreferenceScreen
+            android:title="上课提醒"
+            android:persistent="false"
+            android:key="pref_key_remind_settings">
+            <CheckBoxPreference
+                android:key="pref_key_remind"
+                android:title="开启上课提醒"
+                android:defaultValue="false"/>
+         </PreferenceScreen>
 
     </PreferenceCategory>
 </PreferenceScreen>

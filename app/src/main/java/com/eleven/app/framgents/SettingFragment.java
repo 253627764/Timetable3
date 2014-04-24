@@ -77,6 +77,8 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
             preference.setTitle("第" + week + "周");
         } else if(key.equals("startDay") ) {
             return;
+        } else if (key.equals(getString(R.string.pref_key_remind))) {
+            return;
         } else {
             preference.setSummary(sharedPreferences.getString(key, defalutTime.get(key)));
         }
