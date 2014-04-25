@@ -26,11 +26,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingActivity"
-            android:logo="@drawable/ic_launcher"
+            android:name="com.eleven.app.activities.SettingActivity"
             android:label="@string/title_activity_setting_avtivity"
-            android:uiOptions="splitActionBarWhenNarrow">
+            android:logo="@drawable/ic_launcher"
+            android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
+
+        <receiver
+            android:name="com.eleven.app.receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+        <receiver
+            android:name="com.eleven.app.receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <service
+            android:name="com.eleven.app.services.AlarmService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

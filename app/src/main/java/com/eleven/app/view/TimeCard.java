@@ -45,7 +45,7 @@ public class TimeCard extends Card {
             int ss = calendar.get(Calendar.SECOND);
             mClock.setText(String.format("%02d:%02d:%02d", hh, mm, ss));
 
-            int w = calendar.get(Calendar.WEEK_OF_MONTH);
+            int w = calendar.get(Calendar.DAY_OF_WEEK);
             mWeekArr = mContext.getResources().getStringArray(R.array.week_array);
             mWeek.setText(mWeekArr[w-1]);
 

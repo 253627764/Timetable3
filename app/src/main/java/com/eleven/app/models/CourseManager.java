@@ -113,4 +113,28 @@ public class CourseManager {
         }
         return null;
     }
+
+    /**
+     * 获取需要提醒的课程
+     * @return
+     */
+    public static List<Course> getRemindCourse() {
+        List<Course> remindList = new ArrayList<Course>();
+        for (Course c : courses) {
+            if (c.isRemind()) {
+                remindList.add(c);
+            }
+        }
+        return remindList;
+    }
+
+    public static List<Course> getRemindCourse(int day) {
+        List<Course> remindList = new ArrayList<Course>();
+        for (Course c : courses) {
+            if (c.getWeek() == day && c.isRemind()) {
+                remindList.add(c);
+            }
+        }
+        return remindList;
+    }
 }

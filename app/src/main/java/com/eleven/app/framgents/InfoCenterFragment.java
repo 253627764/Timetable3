@@ -50,7 +50,9 @@ public class InfoCenterFragment extends Fragment {
 
         Course course = getNextCourse();
         CourseCard nextCourseCard = new CourseCard(getActivity(), course);
-        nextCourseCard.setOnClickListener(new CourseCardListener());
+        if (course!= null) {
+            nextCourseCard.setOnClickListener(new CourseCardListener());
+        }
         CardView cardView = (CardView) rootView.findViewById(R.id.nextCourse);
         cardView.setCard(nextCourseCard);
 
@@ -65,7 +67,7 @@ public class InfoCenterFragment extends Fragment {
         Calendar date = Calendar.getInstance();
         int hh = date.get(Calendar.HOUR_OF_DAY);
         int mm = date.get(Calendar.MINUTE);
-        int week = date.get(Calendar.WEEK_OF_MONTH) - 1; // sunday = 1
+        int week = date.get(Calendar.DAY_OF_WEEK) - 1; // sunday = 1
         String time = String.format("%02d:%02d", hh, mm);
         String time1 = App.getPreferences().getString(getResources().getString(R.string.pref_key_time_1), "08:15");
         String time2 = App.getPreferences().getString(getResources().getString(R.string.pref_key_time_2), "10:15");

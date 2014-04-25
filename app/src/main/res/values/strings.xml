@@ -36,10 +36,10 @@
         <item>选修</item>
     </string-array>
     <string-array name="remind_time_array">
-        <item>上课前 10分钟</item>
-        <item>上课前 15分钟</item>
-        <item>上课前 20分钟</item>
-        <item>上课前 30分钟</item>
+        <item>上课前 10 分钟</item>
+        <item>上课前 15 分钟</item>
+        <item>上课前 20 分钟</item>
+        <item>上课前 30 分钟</item>
     </string-array>
 
     <string name="pref_key_time_1">pref_key_time_1</string>

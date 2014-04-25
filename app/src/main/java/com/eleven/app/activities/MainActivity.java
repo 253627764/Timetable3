@@ -28,6 +28,7 @@ import com.eleven.app.events.NewCourseEvent;
 import com.eleven.app.framgents.*;
 import com.eleven.app.models.CourseManager;
 import com.eleven.app.models.NavDrawerItem;
+import com.eleven.app.services.AlarmService;
 import com.eleven.app.util.App;
 import com.squareup.otto.Subscribe;
 
@@ -72,6 +73,8 @@ public class MainActivity extends FragmentActivity {
             mPosition = 1;
             Log.v("timetable3", "savedInstanceState is null");
         }
+
+        startService(new Intent(this, AlarmService.class));
 
         mTitle = mDrawerTitle = getTitle();
 
