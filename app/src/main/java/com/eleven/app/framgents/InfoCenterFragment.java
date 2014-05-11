@@ -75,20 +75,22 @@ public class InfoCenterFragment extends Fragment {
         String time4 = App.getPreferences().getString(getResources().getString(R.string.pref_key_time_4), "16:30");
         String time5 = App.getPreferences().getString(getResources().getString(R.string.pref_key_time_5), "19:30");
         Course course = null;
+        Log.d(TAG, "time1 = " + time1);
+        Log.d(TAG, time.compareTo(time1) + "");
         if (time.compareTo(time1) < 0) {
+            course = CourseManager.getCourse(0, week);
+        }
+        if (course == null && time.compareTo(time1) > 0) {
             course = CourseManager.getCourse(1, week);
         }
-        if (course != null && time.compareTo(time1) > 0) {
+        if (course == null && time.compareTo(time2) > 0) {
             course = CourseManager.getCourse(2, week);
         }
-        if (course != null && time.compareTo(time2) > 0) {
+        if (course == null && time.compareTo(time3) > 0) {
             course = CourseManager.getCourse(3, week);
         }
-        if (course != null && time.compareTo(time3) > 0) {
+        if (course == null && time.compareTo(time4) > 0) {
             course = CourseManager.getCourse(4, week);
-        }
-        if (course != null && time.compareTo(time4) > 0) {
-            course = CourseManager.getCourse(5, week);
         }
         return course;
 

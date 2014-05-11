@@ -22,6 +22,7 @@ public class SettingActivity extends PreferenceActivity {
             getActionBar().setDisplayHomeAsUpEnabled(true);
             getActionBar().setDisplayShowHomeEnabled(true);
         }
+
     }
 
 
